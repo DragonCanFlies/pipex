@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:20:01 by latabagl          #+#    #+#             */
-/*   Updated: 2025/07/16 16:26:12 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:50:25 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,21 @@ void	close_fds(t_fds *fds)
 void	open_files(const char *infile, const char *outfile, t_fds *fds)
 {
 	fds->infile = open(infile, O_RDONLY);
-	if (fds->infile == -1)
-	{
-		printf("zsh1: %s: %s\n", strerror(errno), infile);
-		exit(ERR_INFILE);
-	}
 	fds->outfile = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fds->outfile == -1)
 	{
-		printf("zsh2: %s\n", strerror(errno));
-		close(fds->infile);
-		exit(ERR_OUTFILE);
-	}
+		perror("pipex");
+		close_fds(fds);
+		exit(1);
+	}	
 }
 
 void	set_pipe(t_fds *fds)
 {
 	if (pipe(fds->pipe_fd) == -1)
 	{
-		printf("zsh3: %s\n", strerror(errno));
+		perror("pipex");
 		close_fds(fds);
-		exit(ERR_PIPE);
+		exit(1);
 	}
 }

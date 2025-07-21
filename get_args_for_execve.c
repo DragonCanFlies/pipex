@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:22:15 by latabagl          #+#    #+#             */
-/*   Updated: 2025/07/16 17:34:32 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/07/21 15:09:33 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	get_execve_args(t_execve_args *execve_args, int cmd)
 	pathname = find_pathname(execve_args); 
 	if (!pathname)
 	{
-		exit (ERR_PATHNAME);
+		ft_putstr_fd("pipex: command not found\n", 2);
+		exit (127);
 	}
 	execve_args->pathname = pathname;
 	
@@ -40,8 +41,6 @@ void	get_execve_args(t_execve_args *execve_args, int cmd)
 char	*find_pathname(t_execve_args *execve_args)
 {	
 	unsigned int	i;
-	unsigned int	len_cmd;
-	unsigned int	len_path;
 	char			*pathname;
 
 	i = 0;
