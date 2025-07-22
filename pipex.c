@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:22:59 by latabagl          #+#    #+#             */
-/*   Updated: 2025/07/21 17:57:14 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/07/22 14:28:29 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ int	main(int argc, char **argv, char **envp)
 		write(2, "pipex must take 4 arguments: file1 cmd1 cmd2 file2\n", 52);
 		return (1);
 	}
-	execve_args.envp = envp; 
-	execve_args.cmd1 = argv[2];
-	execve_args.cmd2 = argv[3];
-	fds.filename = argv[1];
+	populate_structs(&fds, &execve_args, argv, envp);
 	initialize_fds(&fds);
 	open_files(argv[1], argv[4], &fds);
 	set_pipe(&fds);
@@ -40,11 +37,11 @@ int	main(int argc, char **argv, char **envp)
 	waitpid(pid2, &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
-	// !!!
+	free_mem(&execve_args);
 	return (1);
 }
 
-char	*ft_strjoinpath(char const *s1, char const *s2)
+char	*build_exec_path(char const *s1, char const *s2)
 {
 	size_t	len;
 	char	*result;

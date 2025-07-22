@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:20:01 by latabagl          #+#    #+#             */
-/*   Updated: 2025/07/21 17:50:25 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:13:16 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,25 @@ void	open_files(const char *infile, const char *outfile, t_fds *fds)
 	fds->infile = open(infile, O_RDONLY);
 	fds->outfile = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fds->outfile == -1)
-	{
-		perror("pipex");
-		close_fds(fds);
-		exit(1);
-	}	
+		print_error(fds);
 }
 
 void	set_pipe(t_fds *fds)
 {
 	if (pipe(fds->pipe_fd) == -1)
-	{
-		perror("pipex");
-		close_fds(fds);
-		exit(1);
-	}
+		print_error(fds);
+}
+
+void	populate_structs(t_fds *fds, 
+	t_execve_args *execve_args, 
+	char **argv, 
+	char **envp)
+{
+	execve_args->envp = envp; 
+	execve_args->cmd1 = argv[2];
+	execve_args->cmd2 = argv[3];
+	fds->filename = argv[1];
+	execve_args->pathname = NULL;
+	execve_args->paths = NULL;
+	execve_args->argv = NULL;
 }
