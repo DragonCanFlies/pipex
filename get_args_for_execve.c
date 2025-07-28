@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:22:15 by latabagl          #+#    #+#             */
-/*   Updated: 2025/07/22 16:20:26 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/07/28 17:09:17 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,10 @@ void	get_execve_args(t_execve_args *execve_args, int cmd, t_fds *fds)
 		execve_args->argv = ft_split(execve_args->cmd1, ' ');
 	else
 		execve_args->argv = ft_split(execve_args->cmd2, ' '); 
-	path_env_var = get_path_env_var(execve_args); 
+	path_env_var = get_path_env_var(execve_args, fds); 
 	execve_args->paths = ft_split(path_env_var, ':');
 	if (!execve_args->argv || !execve_args->paths)
-	{
-		free_mem(execve_args);
-		print_error(fds);
-	} 
+		print_error(fds, ERR_GENERIC, execve_args);
 	pathname = find_pathname(execve_args, fds); 
 	execve_args->pathname = pathname;
 }	
@@ -38,35 +35,25 @@ char	*find_pathname(t_execve_args *execve_args, t_fds *fds)
 	char			*pathname;
 
 	i = 0;
+	if (!execve_args->argv[0] || execve_args->argv[0][0] == '\0')
+		print_error(fds, ERR_CMD_NOT_FOUND, execve_args);
 	while (execve_args->paths[i])
 	{
 		pathname = build_exec_path(execve_args->paths[i], execve_args->argv[0]); 
 		if (!pathname)
-		{
-			free_mem(execve_args);
-			print_error(fds);
-		}
+			print_error(fds, ERR_GENERIC, execve_args);
 		if (access(pathname, F_OK) == 0 && access(pathname, X_OK) != 0)
-		{
-			free_mem(execve_args);
-			ft_putstr_fd("pipex: permission denied: ", 2);
-			ft_putstr_fd(execve_args->argv[0], 2);
-			ft_putstr_fd("\n", 2);
-			exit (126);
-		}
+			print_error(fds, ERR_PERMISSION, execve_args);
 		if (access(pathname, F_OK | X_OK) == 0)
 			return (pathname);
 		free(pathname);
 		i++;
 	}
-	free_mem(execve_args);
-	ft_putstr_fd("pipex: command not found: ", 2);
-	ft_putstr_fd(execve_args->argv[0], 2);
-	ft_putstr_fd("\n", 2);
-	exit (127);
+	print_error(fds, ERR_CMD_NOT_FOUND, execve_args);
+	return (NULL);
 }
 
-char	*get_path_env_var(t_execve_args *execve_args)
+char	*get_path_env_var(t_execve_args *execve_args, t_fds *fds)
 {
 	int 	i;
 	
@@ -79,9 +66,8 @@ char	*get_path_env_var(t_execve_args *execve_args)
 		}
 		i++;
 	}
-	free_mem(execve_args);
-	write(2, "pipex: PATH not set\n", 21);
-    exit(127);
+	print_error(fds, ERR_CMD_NOT_FOUND, execve_args);
+	return (NULL);
 }
 
 int	is_path_env_var(char *env_var)
@@ -95,9 +81,3 @@ int	is_path_env_var(char *env_var)
 	return (0);
 }
 
-void	print_error(t_fds *fds)
-{
-	perror("pipex");
-	close_fds(fds);
-	exit(1);
-}

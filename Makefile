@@ -6,7 +6,7 @@
 #    By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/16 17:40:13 by latabagl          #+#    #+#              #
-#    Updated: 2025/07/16 17:46:55 by latabagl         ###   ########.fr        #
+#    Updated: 2025/07/28 12:22:17 by latabagl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = pipex
 CC = cc
 FLAGS = -Wall -Wextra -Werror
 HEADER = pipex.h
-CFILES = pipex.c fork_and_exec.c set_things_up.c get_args_for_execve.c split.c 
+CFILES = pipex.c fork_and_exec.c set_things_up.c get_args_for_execve.c split.c error_handling.c pipex_utils.c
 OBJECTS = $(CFILES:.c=.o)
 
 all: $(NAME)
