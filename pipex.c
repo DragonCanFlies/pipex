@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:22:59 by latabagl          #+#    #+#             */
-/*   Updated: 2025/07/22 14:28:29 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/07/28 13:53:56 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,44 +23,31 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 5)
 	{
-		write(2, "pipex must take 4 arguments: file1 cmd1 cmd2 file2\n", 52);
+		ft_putstr_fd("pipex must take 4 arguments: file1 cmd1 cmd2 file2\n", 2);
 		return (1);
 	}
-	populate_structs(&fds, &execve_args, argv, envp);
-	initialize_fds(&fds);
-	open_files(argv[1], argv[4], &fds);
-	set_pipe(&fds);
+	prepare_pipex(&execve_args, &fds, argv, envp);
 	pid1 = fork_and_exec(&fds, &execve_args, 1);
 	pid2 = fork_and_exec(&fds, &execve_args, 2);
 	close_fds(&fds);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, &status, 0);
+	free_mem(&execve_args);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
-	free_mem(&execve_args);
 	return (1);
 }
 
-char	*build_exec_path(char const *s1, char const *s2)
+void	prepare_pipex(t_execve_args *execve_args, 
+		t_fds *fds, 
+		char **argv, 
+		char **envp)
 {
-	size_t	len;
-	char	*result;
-	char	*dest;
-
-	len = ft_strlen(s1) + ft_strlen(s2) + 2;
-	result = (char *) malloc(len);
-	if (!result)
-		return (NULL);
-	dest = result;
-	while (*s1)
-		*dest++ = *s1++;
-	*dest++ = '/';
-	while (*s2)
-		*dest++ = *s2++;
-	*dest = '\0';
-	return (result);
+	populate_structs(fds, execve_args, argv, envp);
+	initialize_fds(fds);
+	open_files(argv[1], argv[4], &fds, &execve_args);
+	set_pipe(fds, execve_args);
 }
-
 /* 
 void	print_fds(t_fds *fds)
 {
