@@ -6,11 +6,11 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:22:59 by latabagl          #+#    #+#             */
-/*   Updated: 2025/07/28 13:53:56 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/08/16 20:11:58 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "includes/pipex.h"
 
 // ./pipex file1 cmd1 cmd2 file2  infile cat "wc -l" outfile
 int	main(int argc, char **argv, char **envp)
@@ -45,7 +45,7 @@ void	prepare_pipex(t_execve_args *execve_args,
 {
 	populate_structs(fds, execve_args, argv, envp);
 	initialize_fds(fds);
-	open_files(argv[1], argv[4], &fds, &execve_args);
+	open_files(argv[1], argv[4], fds, execve_args);
 	set_pipe(fds, execve_args);
 }
 /* 
