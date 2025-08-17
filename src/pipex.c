@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:22:59 by latabagl          #+#    #+#             */
-/*   Updated: 2025/08/17 11:23:32 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/08/17 12:28:11 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	main(int argc, char **argv, char **envp)
 	free_mem(&execve_args);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+    	return (128 + WTERMSIG(status));
 	return (1);
 }
 
@@ -48,11 +50,3 @@ void	prepare_pipex(t_execve_args *execve_args,
 	open_files(argv[1], argv[4], fds, execve_args);
 	set_pipe(fds, execve_args);
 }
-/* 
-void	print_fds(t_fds *fds)
-{
-	printf("infile %i\n", fds->infile);
-	printf("outfile %i\n", fds->outfile);
-	printf("pipe reading end %i\n", fds->pipe_fd[0]);
-	printf("pipe writing end %i\n", fds->pipe_fd[1]);
-} */

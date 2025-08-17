@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:20:01 by latabagl          #+#    #+#             */
-/*   Updated: 2025/07/28 16:26:59 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/08/17 11:48:22 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	populate_structs(t_fds *fds,
 	char **argv, 
 	char **envp)
 {
-	execve_args->envp = envp; 
+	execve_args->envp = envp;
 	execve_args->cmd1 = argv[2];
 	execve_args->cmd2 = argv[3];
 	fds->filename = argv[1];
