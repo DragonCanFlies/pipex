@@ -6,13 +6,13 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:22:59 by latabagl          #+#    #+#             */
-/*   Updated: 2025/08/16 20:11:58 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/08/17 11:23:32 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/pipex.h"
+#include "pipex.h"
 
-// ./pipex file1 cmd1 cmd2 file2  infile cat "wc -l" outfile
+// ./pipex file1 cmd1 cmd2 file2  ie. infile cat "wc -l" outfile
 int	main(int argc, char **argv, char **envp)
 {
 	t_fds				fds;
