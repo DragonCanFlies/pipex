@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:22:15 by latabagl          #+#    #+#             */
-/*   Updated: 2025/08/25 14:04:40 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:06:50 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	*find_pathname(t_execve_args *execve_args, t_fds *fds)
 	i = 0;
 	if (!execve_args->argv[0] || execve_args->argv[0][0] == '\0')
 		print_error(fds, ERR_CMD_NOT_FOUND, execve_args);
+	if (ft_strchr(execve_args->argv[0], '/'))
+		return (ft_strdup(execve_args->argv[0]));
 	while (execve_args->paths[i])
 	{
 		pathname = build_exec_path(execve_args->paths[i], 

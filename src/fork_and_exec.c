@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:20:57 by latabagl          #+#    #+#             */
-/*   Updated: 2025/07/28 17:04:33 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:41:45 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,13 @@ pid_t	fork_and_exec(t_fds *fds, t_execve_args *execve_args, int cmd)
 void	exec_cmd(t_execve_args *execve_args, t_fds *fds)
 {
 	execve(execve_args->pathname, execve_args->argv, execve_args->envp);
-	print_error(fds, ERR_GENERIC, execve_args);
+	if (access(execve_args->argv[0], F_OK) != 0)
+		print_error(fds, ERR_CMD_NOT_FOUND, execve_args);
+	else if (access(execve_args->argv[0], F_OK) == 0 && 
+		access(execve_args->argv[0], X_OK) != 0)
+		print_error(fds, ERR_PERMISSION, execve_args);
+	else
+		print_error(fds, ERR_GENERIC, execve_args);
 }
 
 // child read from file1 and write into pipe

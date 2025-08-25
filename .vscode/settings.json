@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"pipex.h": "c",
-		"string.h": "c"
+		"string.h": "c",
+		"random": "c"
 	}
 }
