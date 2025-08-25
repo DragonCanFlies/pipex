@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_things_up.c                                    :+:      :+:    :+:   */
+/*   set_things_up_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:20:01 by latabagl          #+#    #+#             */
-/*   Updated: 2025/08/17 11:48:22 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/08/25 18:01:24 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,11 @@ void	populate_structs(t_fds *fds,
 	char **envp)
 {
 	execve_args->envp = envp;
-	execve_args->cmd1 = argv[2];
-	execve_args->cmd2 = argv[3];
+	//execve_args->cmd = argv[];
+	// execve_args->cmd1 = argv[2];
+	// execve_args->cmd2 = argv[3];
 	fds->filename = argv[1];
 	execve_args->pathname = NULL;
-	execve_args->paths = NULL;
+	execve_args->paths = NULL; // I could do this now instead of doing it for each kid 
 	execve_args->argv = NULL;
 }
