@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:22:59 by latabagl          #+#    #+#             */
-/*   Updated: 2025/08/17 12:28:11 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/08/25 14:03:49 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
-    	return (128 + WTERMSIG(status));
+		return (128 + WTERMSIG(status));
 	return (1);
 }
 

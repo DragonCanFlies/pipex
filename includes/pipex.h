@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:05:58 by latabagl          #+#    #+#             */
-/*   Updated: 2025/08/17 11:33:09 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/08/25 14:01:49 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdlib.h>
 # include <errno.h>
 # include <string.h>
-#include "libft.h"
+# include "libft.h"
 
 # define ERR_CMD_NOT_FOUND   127
 # define ERR_PERMISSION      126
@@ -69,7 +69,7 @@ void	populate_structs(t_fds *fds,
 			char **envp);
 void	print_error(t_fds *fds, int err, t_execve_args *execve_args);
 void	print_message(char *msg, char *cmd_or_file);
-int		get_exit_status(int	err);
+int		get_exit_status(int err);
 void	free_mem(t_execve_args *execve_args);
 void	prepare_pipex(t_execve_args *execve_args, 
 			t_fds *fds, 

@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:22:15 by latabagl          #+#    #+#             */
-/*   Updated: 2025/08/17 12:59:53 by latabagl         ###   ########.fr       */
+/*   Updated: 2025/08/25 14:04:40 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	get_execve_args(t_execve_args *execve_args, int cmd, t_fds *fds)
 		print_error(fds, ERR_GENERIC, execve_args);
 	pathname = find_pathname(execve_args, fds); 
 	execve_args->pathname = pathname;
-}	
+}
 
 char	*find_pathname(t_execve_args *execve_args, t_fds *fds)
-{	
+{
 	unsigned int	i;
 	char			*pathname;
 
@@ -39,7 +39,8 @@ char	*find_pathname(t_execve_args *execve_args, t_fds *fds)
 		print_error(fds, ERR_CMD_NOT_FOUND, execve_args);
 	while (execve_args->paths[i])
 	{
-		pathname = build_exec_path(execve_args->paths[i], execve_args->argv[0]); 
+		pathname = build_exec_path(execve_args->paths[i], 
+				execve_args->argv[0]); 
 		if (!pathname)
 			print_error(fds, ERR_GENERIC, execve_args);
 		if (access(pathname, F_OK) == 0 && access(pathname, X_OK) != 0)
@@ -55,8 +56,8 @@ char	*find_pathname(t_execve_args *execve_args, t_fds *fds)
 
 char	*get_path_env_var(t_execve_args *execve_args, t_fds *fds)
 {
-	int 	i;
-	
+	int	i;
+
 	i = 0;
 	while (execve_args->envp[i])
 	{
@@ -80,4 +81,3 @@ int	is_path_env_var(char *env_var)
 		return (1);
 	return (0);
 }
-
